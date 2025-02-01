@@ -1,8 +1,8 @@
-# ts-auth-service-1625
+# ts-validation-service-1655
 
 ## Overview
 
-This project is an authentication service built using Node.js, Express, Typescript and Prisma. It handles user registration, login, change-password, token management, OTP verification and more.
+This project is an incident management service built using Node.js, Express, Typescript and Prisma.
 
 ## Prerequisites
 
@@ -16,8 +16,8 @@ This project is an authentication service built using Node.js, Express, Typescri
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/tanmaysinghx/ts-auth-service-1625.git
-cd ts-auth-service-1625
+git clone https://github.com/tanmaysinghx/ts-incident-service-1655.git
+cd ts-incident-service-1655
 
 ```
 
