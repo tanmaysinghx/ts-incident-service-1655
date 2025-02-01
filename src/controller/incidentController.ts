@@ -4,13 +4,16 @@ import { ApiResponse } from '../utils/apiResponse';
 
 export const createIncidentController = async (req: Request, res: Response) => {
     try {
-        const { title, description, priority } = req.body;
+        const { title, description, priority, status, assignedTo, slaStatus } = req.body;
         const createdBy = (req as any).user.email; // From JWT
         const incident = await incidentService.createIncidentService({
             title,
             description,
             priority,
             createdBy,
+            status,
+            assignedTo,
+            slaStatus
         });
         res.status(201).json(new ApiResponse('Incident created', incident));
     } catch (error: any) {

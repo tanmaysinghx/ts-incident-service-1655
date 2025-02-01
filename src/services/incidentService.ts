@@ -1,4 +1,4 @@
-import { IncidentStatus, IncidentPriority } from '@prisma/client';
+import { IncidentStatus, IncidentPriority, SlaStatus } from '@prisma/client';
 import prisma from '../config/db';
 
 interface CreateIncidentInput {
@@ -6,6 +6,9 @@ interface CreateIncidentInput {
     description: string;
     priority: IncidentPriority;
     createdBy: string;
+    status: IncidentStatus;
+    assignedTo: string;
+    slaStatus: SlaStatus
 }
 
 export const createIncidentService = async (input: CreateIncidentInput) => {

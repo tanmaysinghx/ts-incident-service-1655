@@ -78,3 +78,13 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Server is running on port: 1655","timestamp":"2025-02-01 23:39:41"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Database connected successfully","timestamp":"2025-02-01 23:39:42"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Database connection successful","timestamp":"2025-02-01 23:39:42"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"ACCESS_TOKEN_SECRET: Not Loaded","timestamp":"2025-02-01 23:52:47"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"REFRESH_TOKEN_SECRET: Not Loaded","timestamp":"2025-02-01 23:52:47"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on port: 1655","timestamp":"2025-02-01 23:52:47"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Database connected successfully","timestamp":"2025-02-01 23:52:47"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Database connection successful","timestamp":"2025-02-01 23:52:47"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"ACCESS_TOKEN_SECRET: Not Loaded","timestamp":"2025-02-02 00:00:33"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"REFRESH_TOKEN_SECRET: Not Loaded","timestamp":"2025-02-02 00:00:33"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on port: 1655","timestamp":"2025-02-02 00:00:33"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Database connected successfully","timestamp":"2025-02-02 00:00:33"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Database connection successful","timestamp":"2025-02-02 00:00:33"}
