@@ -76,7 +76,6 @@ export const updateIncidentStatus = async (
     try {
         const { id } = req.params;
         const { status, comment } = req.body;
-        const userId = (req as any).user.id;
         const updatedBy = (req as any).user.email;
         if (!Object.values(IncidentStatus).includes(status)) {
             res.status(400).json(new ApiResponse('Invalid status', null, 400));
@@ -91,6 +90,36 @@ export const updateIncidentStatus = async (
         res
             .status(200)
             .json(new ApiResponse('Status updated', updatedIncident));
+    } catch (error: any) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2025') {
+                res.status(404).json(new ApiResponse('Incident not found', null, 404));
+                return;
+            }
+        }
+        res.status(500).json(new ApiResponse(error.message, null, 500));
+    }
+};
+
+export const assignIncident = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const { assignedTo, comment } = req.body;
+        const assignedBy = (req as any).user.email;
+        if (!assignedTo) {
+            res.status(400).json(new ApiResponse('Assignee ID is required', null, 400));
+            return;
+        }
+        const updatedIncident = await incidentService.assignIncident({
+            id,
+            assignedTo,
+            comment,
+            assignedBy,
+        });
+        res.status(200).json(new ApiResponse('Incident assigned', updatedIncident));
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2025') {

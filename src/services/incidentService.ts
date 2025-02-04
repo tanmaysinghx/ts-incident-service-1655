@@ -25,6 +25,13 @@ interface UpdateStatusInput {
     updatedBy: string;
 }
 
+interface AssignIncidentInput {
+    id: string;
+    assignedTo: string;
+    comment?: string;
+    assignedBy: string
+}
+
 export const createIncidentService = async (input: CreateIncidentInput) => {
     return await prisma.incident.create({
         data: {
@@ -88,7 +95,30 @@ export const updateIncidentStatus = async ({
                 }
                 : undefined,
         },
-        include: { comments: true }, 
+        include: { comments: true },
+    });
+};
+
+export const assignIncident = async ({
+    id,
+    assignedTo,
+    comment,
+    assignedBy,
+}: AssignIncidentInput) => {
+    return await prisma.incident.update({
+        where: { id },
+        data: {
+            assignedTo,
+            comments: comment
+                ? {
+                    create: {
+                        text: comment,
+                        postedBy: assignedBy,
+                    },
+                }
+                : undefined,
+        },
+        include: { comments: true },
     });
 };
 
