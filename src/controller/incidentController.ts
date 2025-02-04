@@ -131,4 +131,38 @@ export const assignIncident = async (
     }
 };
 
+export const searchIncidents = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const { query, status, priority } = req.query;
+        const page = parseInt(req.query.page as string) || 1;
+        const size = parseInt(req.query.size as string) || 10;
+        if (!query) {
+            res.status(400).json(new ApiResponse('Search query is required', null, 400));
+            return;
+        }
+        const result = await incidentService.searchIncidents({
+            query: query as string,
+            status: status as IncidentStatus | undefined,
+            priority: priority as IncidentPriority | undefined,
+            page,
+            size,
+        });
+        res.status(200).json(
+            new ApiResponse('Incidents fetched', {
+                data: result.incidents,
+                pagination: {
+                    total: result.total,
+                    page: result.page,
+                    size: result.size,
+                },
+            })
+        );
+    } catch (error: any) {
+        res.status(500).json(new ApiResponse(error.message, null, 500));
+    }
+};
+
 // Implement other controllers (getById, list, etc.)

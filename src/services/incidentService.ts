@@ -32,6 +32,14 @@ interface AssignIncidentInput {
     assignedBy: string
 }
 
+interface SearchIncidentsParams {
+    query: string;
+    status?: IncidentStatus;
+    priority?: IncidentPriority;
+    page?: number;
+    size?: number;
+}
+
 export const createIncidentService = async (input: CreateIncidentInput) => {
     return await prisma.incident.create({
         data: {
@@ -120,6 +128,38 @@ export const assignIncident = async ({
         },
         include: { comments: true },
     });
+};
+
+export const searchIncidents = async ({
+    query,
+    status,
+    priority,
+    page = 1,
+    size = 10,
+}: SearchIncidentsParams) => {
+    const skip = (page - 1) * size;
+    const where = {
+        AND: [
+            {
+                OR: [
+                    { title: { contains: query } }, // Case-insensitive by default in MySQL
+                    { description: { contains: query } },
+                ],
+            },
+            ...(status ? [{ status }] : []),
+            ...(priority ? [{ priority }] : []),
+        ],
+    };
+    const [incidents, total] = await prisma.$transaction([
+        prisma.incident.findMany({
+            where,
+            skip,
+            take: size,
+            orderBy: { createdAt: 'desc' },
+        }),
+        prisma.incident.count({ where }),
+    ]);
+    return { incidents, total, page, size };
 };
 
 // Implement other service methods (getById, list, updateStatus, etc.)
