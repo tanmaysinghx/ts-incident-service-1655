@@ -2,8 +2,14 @@ import { Request, Response } from 'express';
 import * as incidentService from '../services/incidentService';
 import { ApiResponse } from '../utils/apiResponse';
 import { IncidentPriority, IncidentStatus, Prisma } from '@prisma/client';
+import { errorResponse, successResponse } from '../utils/responseUtils';
 
-export const createIncidentController = async (req: Request, res: Response) => {
+interface CustomRequest extends Request {
+    transactionId?: string;
+}
+
+export const createIncidentController = async (req: CustomRequest, res: Response) => {
+    const transactionId = req.transactionId;
     try {
         const { title, description, priority, status, assignedTo, slaStatus } = req.body;
         const createdBy = (req as any).user.email; // From JWT
@@ -16,16 +22,17 @@ export const createIncidentController = async (req: Request, res: Response) => {
             assignedTo,
             slaStatus
         });
-        res.status(201).json(new ApiResponse('Incident created', incident));
+        res.status(201).json(successResponse(201, incident, "Incident created", transactionId));
     } catch (error: any) {
-        res.status(500).json(new ApiResponse(error.message, null, 500));
+        res.status(500).json(errorResponse(500, error.message, "null", transactionId,));
     }
 };
 
 export const getIncidentById = async (
-    req: Request,
+    req: CustomRequest,
     res: Response
 ): Promise<void> => {
+    const transactionId = req.transactionId;
     try {
         const { id } = req.params;
         const incident = await incidentService.getIncidentById(id);
@@ -33,16 +40,17 @@ export const getIncidentById = async (
             res.status(404).json(new ApiResponse('Incident not found', null, 404));
             return;
         }
-        res.status(200).json(new ApiResponse('Incident fetched', incident));
+        res.status(200).json(successResponse(201, incident, "Incident fetched", transactionId));
     } catch (error: any) {
-        res.status(500).json(new ApiResponse(error.message, null, 500));
+        res.status(500).json(errorResponse(500, error.message, "null", transactionId,));
     }
 };
 
 export const listIncidents = async (
-    req: Request,
+    req: CustomRequest,
     res: Response
 ): Promise<void> => {
+    const transactionId = req.transactionId;
     try {
         const { status, priority } = req.query;
         const page = parseInt(req.query.page as string) || 1;
@@ -54,25 +62,25 @@ export const listIncidents = async (
             page,
             size,
         });
-        res.status(200).json(
-            new ApiResponse('Incidents fetched', {
-                data: result.incidents,
-                pagination: {
-                    total: result.total,
-                    page: result.page,
-                    size: result.size,
-                },
-            })
-        );
+        let customResponse = {
+            data: result.incidents,
+            pagination: {
+                total: result.total,
+                page: result.page,
+                size: result.size,
+            },
+        };
+        res.status(200).json(successResponse(200, customResponse, "Incident list fetched", transactionId));
     } catch (error: any) {
-        res.status(500).json(new ApiResponse(error.message, null, 500));
+        res.status(500).json(errorResponse(500, error.message, "null", transactionId,));
     }
 };
 
 export const updateIncidentStatus = async (
-    req: Request,
+    req: CustomRequest,
     res: Response
 ): Promise<void> => {
+    const transactionId = req.transactionId;
     try {
         const { id } = req.params;
         const { status, comment } = req.body;
@@ -87,9 +95,7 @@ export const updateIncidentStatus = async (
             comment,
             updatedBy,
         });
-        res
-            .status(200)
-            .json(new ApiResponse('Status updated', updatedIncident));
+        res.status(200).json(successResponse(200, updatedIncident, "Status updated", transactionId));
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2025') {
@@ -97,14 +103,15 @@ export const updateIncidentStatus = async (
                 return;
             }
         }
-        res.status(500).json(new ApiResponse(error.message, null, 500));
+        res.status(500).json(errorResponse(500, error.message, "null", transactionId,));
     }
 };
 
 export const assignIncident = async (
-    req: Request,
+    req: CustomRequest,
     res: Response
 ): Promise<void> => {
+    const transactionId = req.transactionId;
     try {
         const { id } = req.params;
         const { assignedTo, comment } = req.body;
@@ -119,7 +126,7 @@ export const assignIncident = async (
             comment,
             assignedBy,
         });
-        res.status(200).json(new ApiResponse('Incident assigned', updatedIncident));
+        res.status(200).json(successResponse(200, updatedIncident, "Incident assigned", transactionId));
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2025') {
@@ -127,14 +134,15 @@ export const assignIncident = async (
                 return;
             }
         }
-        res.status(500).json(new ApiResponse(error.message, null, 500));
+        res.status(500).json(errorResponse(500, error.message, "null", transactionId,));
     }
 };
 
 export const searchIncidents = async (
-    req: Request,
+    req: CustomRequest,
     res: Response
 ): Promise<void> => {
+    const transactionId = req.transactionId;
     try {
         const { query, status, priority } = req.query;
         const page = parseInt(req.query.page as string) || 1;
@@ -150,18 +158,17 @@ export const searchIncidents = async (
             page,
             size,
         });
-        res.status(200).json(
-            new ApiResponse('Incidents fetched', {
-                data: result.incidents,
-                pagination: {
-                    total: result.total,
-                    page: result.page,
-                    size: result.size,
-                },
-            })
-        );
+        let customResponse = {
+            data: result.incidents,
+            pagination: {
+                total: result.total,
+                page: result.page,
+                size: result.size,
+            },
+        }
+        res.status(200).json(successResponse(200, customResponse, "Search Results", transactionId));
     } catch (error: any) {
-        res.status(500).json(new ApiResponse(error.message, null, 500));
+        res.status(500).json(errorResponse(500, error.message, "null", transactionId,));
     }
 };
 

@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "b4541108-5b4b-4205-af76-f078fa8ce632",
+		"name": "ts-incident-service-1655 LOCAL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15979674"
+	},
+	"item": [
+		{
+			"name": "Create Incident",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MGQ0NTQxZiIsInJvbGVJZCI6IjAwMDEiLCJlbWFpbCI6InN1cGVydXNlckBnbWFpbC5jb20iLCJpYXQiOjE3Mzg0MzQyNzMsImV4cCI6MTczODQzNTE3M30.MZlhG-PvKc06xWJAUavwWEdC7WzL0s6cdq4O2M3mYto",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Database Outage\",\r\n    \"description\": \"Production DB unreachable\",\r\n    \"status\": \"OPEN\",\r\n    \"priority\": \"CRITICAL\",\r\n    \"assignedTo\": null,\r\n    \"slaStatus\": \"UNDER_SLA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1655/v2/api/incidents/create-incident",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1655",
+					"path": [
+						"v2",
+						"api",
+						"incidents",
+						"create-incident"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Incident",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MGQ0NTQxZiIsInJvbGVJZCI6IjAwMDEiLCJlbWFpbCI6InN1cGVydXNlckBnbWFpbC5jb20iLCJpYXQiOjE3Mzg1MTAwNTAsImV4cCI6MTczODUxMDk1MH0.3O85OsBC_q9yBHHPdlhRvjaX7C5pPX_mfKDcNEvgvDc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"RESOLVED\",\r\n    \"comment\": \"Closing Ticket\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1655/v2/api/incidents/update-incident/bceabc36-1683-48b8-8b53-d23c08004738/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1655",
+					"path": [
+						"v2",
+						"api",
+						"incidents",
+						"update-incident",
+						"bceabc36-1683-48b8-8b53-d23c08004738",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign Incident",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MGQ0NTQxZiIsInJvbGVJZCI6IjAwMDEiLCJlbWFpbCI6InN1cGVydXNlckBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2OTE1MDksImV4cCI6MTczODY5MjQwOX0.d-be07Frc-eABT5P9JJ7fa7SHrv7Nn8xmAUpZB2xpt0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"assignedTo\": \"shashi@gmail.com\",\r\n    \"comment\": \"Assigned to backend team lead.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1655/v2/api/incidents/assign-incident/bceabc36-1683-48b8-8b53-d23c08004738/assign",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1655",
+					"path": [
+						"v2",
+						"api",
+						"incidents",
+						"assign-incident",
+						"bceabc36-1683-48b8-8b53-d23c08004738",
+						"assign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Incident",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MGQ0NTQxZiIsInJvbGVJZCI6IjAwMDEiLCJlbWFpbCI6InN1cGVydXNlckBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2OTE1MDksImV4cCI6MTczODY5MjQwOX0.d-be07Frc-eABT5P9JJ7fa7SHrv7Nn8xmAUpZB2xpt0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"assignedTo\": \"shashi@gmail.com\",\r\n    \"comment\": \"Assigned to backend team lead.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1655/v2/api/incidents/search?query=database&priority=CRITICAL",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1655",
+					"path": [
+						"v2",
+						"api",
+						"incidents",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "database"
+						},
+						{
+							"key": "priority",
+							"value": "CRITICAL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Incident",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1655/v2/api/incidents/get-incident/bceabc36-1683-48b8-8b53-d23c08004738",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1655",
+					"path": [
+						"v2",
+						"api",
+						"incidents",
+						"get-incident",
+						"bceabc36-1683-48b8-8b53-d23c08004738"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Incidents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1655/v2/api/incidents/get-incident-list?status=OPEN&page=1&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1655",
+					"path": [
+						"v2",
+						"api",
+						"incidents",
+						"get-incident-list"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "OPEN"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
